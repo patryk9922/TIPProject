@@ -14,30 +14,26 @@ namespace ClientTIP
 {
     public partial class Form1 : Form
     {
-        private TcpClient client;
+        private SharedClient client;
         bool connected = false;
 
         public Form1()
         {
             InitializeComponent();
 
-            client = new TcpClient();
+            client = new SharedClient();
+
+            IPTextField.Text = "127.0.0.1";
+
+            LoginTextField.Text = "test";
+            PasswordTextField.Text = "123";
         }
 
         private void ConnectClickButton_Click(object sender, EventArgs e)
         {
             if (!connected)
             {
-                byte[] buf = new byte[3];
-                try
-                {
-                    client.Connect(IPAddress.Parse(IPTextField.Text), 15080);
-
-                    client.GetStream().Read(buf, 0, buf.Length);
-
-                    string message = Encoding.ASCII.GetString(buf);
-
-                    if (message == "100")
+                    if(client.Connect(IPTextField.Text, 15080))
                     {
                         connected = true;
                         LoginClickButton.Enabled = true;
@@ -47,20 +43,12 @@ namespace ClientTIP
                     }
                     else
                     {
-                        throw new Exception();
+                        MessageBox.Show("Błąd podczas łączenia z serwerem", "Błąd połączenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
-                }
-                catch
-                {
-                    MessageBox.Show("Błąd podczas łączenia z serwerem", "Błąd połączenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
             else
             {
-                byte[] disconnectB = Encoding.ASCII.GetBytes("101|000");
-
-                client.GetStream().Write(disconnectB, 0, disconnectB.Length);
+                client.Write("101|000");
 
                 connected = false;
                 LoginClickButton.Enabled = false;
@@ -73,23 +61,17 @@ namespace ClientTIP
 
         private void LoginClickButton_Click(object sender, EventArgs e)
         {
-            byte[] data = Encoding.ASCII.GetBytes($"110|{LoginTextField.Text}|{PasswordTextField.Text}");
+            string message = $"110|{LoginTextField.Text}|{PasswordTextField.Text}";
 
-            int len = data.Length;
+            client.Write($"201|{message.Length}");
 
-            byte[] code = Encoding.ASCII.GetBytes($"201|{len}");
+            string response = client.Read(3);
 
-            client.GetStream().Write(code, 0, code.Length);
-            byte[] responseB = new byte[3];
-            client.GetStream().Read(responseB, 0, responseB.Length);
-
-            if(Encoding.ASCII.GetString(responseB) == "200")
+            if(response == "200")
             {
-                client.GetStream().Write(data, 0, data.Length);
+                client.Write(message);
 
-                client.GetStream().Read(responseB, 0, responseB.Length);
-
-                string response = Encoding.ASCII.GetString(responseB);
+                response = client.Read(3);
 
                 if(response == "300")
                 {
@@ -97,8 +79,10 @@ namespace ClientTIP
 
                     MainWindow mainWindow = new MainWindow(client);
 
+                    mainWindow.FormClosed += MainWindow_FormClosed;
+
                     mainWindow.Show();
-                    this.Hide();
+                    Hide();
                 }
                 else if(response == "301")
                 {
@@ -111,23 +95,23 @@ namespace ClientTIP
             }
         }
 
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Close();
+        }
+
         private void RegisterClickButton_Click(object sender, EventArgs e)
         {
-            byte[] data = Encoding.ASCII.GetBytes($"120|{LoginTextField.Text}|{PasswordTextField.Text}");
+            //byte[] data = Encoding.ASCII.GetBytes($"120|{LoginTextField.Text}|{PasswordTextField.Text}");
+            string message = $"120|{LoginTextField.Text}|{PasswordTextField.Text}";
 
-            int len = data.Length;
+            client.Write($"201|{message.Length}");
+            string response = client.Read(3);
 
-            byte[] code = Encoding.ASCII.GetBytes($"201|{len}");
-            client.GetStream().Write(code, 0, code.Length);
-            byte[] responseB = new byte[3];
-            client.GetStream().Read(responseB, 0, responseB.Length);
-
-            if(Encoding.ASCII.GetString(responseB) == "200")
+            if(response == "200")
             {
-                client.GetStream().Write(data, 0, data.Length);
-                client.GetStream().Read(responseB, 0, responseB.Length);
-
-                string response = Encoding.ASCII.GetString(responseB);
+                client.Write(message);
+                response = client.Read(3);
 
                 if(response == "310")
                 {
@@ -135,8 +119,10 @@ namespace ClientTIP
 
                     MainWindow mainWindow = new MainWindow(client);
 
+                    mainWindow.FormClosed += MainWindow_FormClosed;
+
                     mainWindow.Show();
-                    this.Hide();
+                    Hide();
                 }
                 else if (response == "311")
                 {
