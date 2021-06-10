@@ -17,6 +17,11 @@ namespace ClientTIP
             client = new TcpClient();
         }
 
+        public string GetLocalIP()
+        {
+            return client.Client.LocalEndPoint.ToString();
+        }
+
         public bool Connect(string ip, int port)
         {
             byte[] buf = new byte[3];

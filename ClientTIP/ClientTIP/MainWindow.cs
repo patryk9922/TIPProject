@@ -49,7 +49,7 @@ namespace ClientTIP
                                 if (dlugosc[0] == "201")
                                 {
                                     //client.Write("200");
-                                    string ip = client.Read(Convert.ToInt32(dlugosc[1]));
+                                    string ip = client.Read(Convert.ToInt32(dlugosc[1])) + "\r\n" + client.GetLocalIP();
 
                                     MessageBox.Show(ip);
                                 }
