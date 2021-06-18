@@ -23,7 +23,7 @@ namespace ClientTIP
 
             client = new SharedClient();
 
-            IPTextField.Text = "127.0.0.1";
+            IPTextField.Text = "192.168.1.16";
 
             LoginTextField.Text = "test";
             PasswordTextField.Text = "123";
@@ -97,12 +97,18 @@ namespace ClientTIP
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Close();
+            Show();
+            client.Write("101|000");
+            connected = false;
+            LoginClickButton.Enabled = false;
+            RegisterClickButton.Enabled = false;
+            ConnectClickButton.Text = "Połącz się";
+            label4.Text = "Brak połączenia";
+            client.Close();
         }
 
         private void RegisterClickButton_Click(object sender, EventArgs e)
         {
-            //byte[] data = Encoding.ASCII.GetBytes($"120|{LoginTextField.Text}|{PasswordTextField.Text}");
             string message = $"120|{LoginTextField.Text}|{PasswordTextField.Text}";
 
             client.Write($"201|{message.Length}");
@@ -115,7 +121,7 @@ namespace ClientTIP
 
                 if(response == "310")
                 {
-                    MessageBox.Show("Zarejestrowano pomyślnie", "Rejestracja udana", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Zarejestrowano", "Rejestracja udana", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     MainWindow mainWindow = new MainWindow(client);
 

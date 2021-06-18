@@ -17,6 +17,7 @@ namespace TIPProjectSerwer
 
         private Dictionary<string, TcpClient> clients = new Dictionary<string, TcpClient>();
         private List<Invitation> invitations = new List<Invitation>();
+        private Dictionary<string, string> calls = new Dictionary<string, string>();
 
         public Server(IPAddress _ip, int _port)
         {
@@ -65,7 +66,7 @@ namespace TIPProjectSerwer
                         {
                             if  (Login(loginData[1], loginData[2]))
                             {
-                                Console.WriteLine($"User :{loginData[1]} logged in");
+                                Console.WriteLine($"User : {loginData[1]} logged in");
                                 loggedIn = true;
 
                                 clients.Add(loginData[1], client);
@@ -83,7 +84,7 @@ namespace TIPProjectSerwer
                         {
                             if (Register(loginData[1], loginData[2]))
                             {
-                                Console.WriteLine($"User :{loginData[1]} registered");
+                                Console.WriteLine($"User : {loginData[1]} registered");
                                 loggedIn = true;
 
                                 clients.Add(loginData[1], client);
@@ -115,6 +116,30 @@ namespace TIPProjectSerwer
                 {
                     IncomingCall(client);
                 }
+                else if(code == "405")
+                {
+                    string user = clients.Where(x => x.Value == client).FirstOrDefault().Key;
+                    var remove = calls.Where(x => x.Key == user || x.Value == user).FirstOrDefault();
+
+                    if(remove.Key == user)
+                    {
+                        Write(clients[remove.Value], "405");
+                        Console.WriteLine($"User: {user} ended call with {remove.Value}");
+                    }
+                    else if(remove.Value == user)
+                    {
+                        Write(clients[remove.Key], "405");
+                        Console.WriteLine($"User: {user} ended call with {remove.Key}");
+                    }
+
+                    calls.Remove(remove.Key);
+                }
+                else if(code == "101")
+                {
+                    string disconnectedClient = clients.Where(x => x.Value == client).FirstOrDefault().Key;
+                    clients.Remove(disconnectedClient);
+                    Console.WriteLine($"User: {disconnectedClient} disconnected");
+                }
             }
         }
 
@@ -134,29 +159,43 @@ namespace TIPProjectSerwer
 
                 if (clients.ContainsKey(userName))
                 {
-
-                    string callerUserName = clients.FirstOrDefault(x => x.Value == client).Key;
-                    invitations.Add(
-                        new Invitation(callerUserName, client.Client.RemoteEndPoint.ToString(), userName, clients[userName].Client.RemoteEndPoint.ToString()));
-
-                    Invitation iv = invitations.Where(x => x.CallerUsername == callerUserName).FirstOrDefault();
-
-                    Write(clients[userName], "400");
-
-                    while (!iv.UserAccepted) ;
-
-                    if (!iv.UserRejected)
+                    if (calls.FirstOrDefault(x => x.Key == userName || x.Value == userName).Value == null)
                     {
-                        Write(client, "401");
-                        Write(client, $"201|{iv.CalleeIP.Length}");
-                        Write(client, iv.CalleeIP);
+
+                        string callerUserName = clients.FirstOrDefault(x => x.Value == client).Key;
+                        invitations.Add(
+                            new Invitation(callerUserName, client.Client.RemoteEndPoint.ToString(), userName, clients[userName].Client.RemoteEndPoint.ToString()));
+
+                        Invitation iv = invitations.Where(x => x.CallerUsername == callerUserName).FirstOrDefault();
+
+                        Write(clients[userName], "400");
+
+                        while (!iv.UserAccepted) ;
+
+                        if (!iv.UserRejected)
+                        {
+                            Console.WriteLine($"Call from {callerUserName} to {userName}");
+                            calls.Add(callerUserName, userName);
+
+                            Write(client, "401");
+
+                            Write(client, $"201|{iv.CalleeIP.Length}|");
+
+                            Write(client, iv.CalleeIP);
+                        }
+                        else
+                        {
+                            Write(client, "402");
+                        }
+
+                        invitations.Remove(iv);
                     }
                     else
                     {
-                        Write(client, "402");
-                    }
+                        byte[] error = Encoding.ASCII.GetBytes("403");
 
-                    invitations.Remove(iv);
+                        client.GetStream().Write(error, 0, error.Length);
+                    }
                 }
                 else
                 {
@@ -186,7 +225,7 @@ namespace TIPProjectSerwer
                 {
                     string callerIP = iv.CallerIP;
 
-                    Write(client, $"201|{callerIP.Length}");
+                    Write(client, $"201|{callerIP.Length}|");
 
                     Write(client, callerIP);
 

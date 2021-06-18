@@ -19,7 +19,10 @@ namespace ClientTIP
 
         public string GetLocalIP()
         {
-            return client.Client.LocalEndPoint.ToString();
+            string ip = client.Client.LocalEndPoint.ToString();
+            ip = ip.Substring(8);
+            ip = ip.Substring(0, ip.IndexOf(']'));
+            return ip;
         }
 
         public bool Connect(string ip, int port)
