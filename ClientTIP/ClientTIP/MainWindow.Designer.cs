@@ -87,7 +87,7 @@ namespace ClientTIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 125);
+            this.ClientSize = new System.Drawing.Size(361, 114);
             this.Controls.Add(this.LogoutButton);
             this.Controls.Add(this.EndButton);
             this.Controls.Add(this.CallButton);

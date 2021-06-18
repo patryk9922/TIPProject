@@ -43,14 +43,14 @@ namespace ClientTIP
             // 
             // LoginTextField
             // 
-            this.LoginTextField.Location = new System.Drawing.Point(260, 224);
+            this.LoginTextField.Location = new System.Drawing.Point(59, 117);
             this.LoginTextField.Name = "LoginTextField";
             this.LoginTextField.Size = new System.Drawing.Size(258, 23);
             this.LoginTextField.TabIndex = 0;
             // 
             // PasswordTextField
             // 
-            this.PasswordTextField.Location = new System.Drawing.Point(260, 278);
+            this.PasswordTextField.Location = new System.Drawing.Point(59, 171);
             this.PasswordTextField.Name = "PasswordTextField";
             this.PasswordTextField.Size = new System.Drawing.Size(258, 23);
             this.PasswordTextField.TabIndex = 1;
@@ -59,7 +59,7 @@ namespace ClientTIP
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(217, 224);
+            this.label1.Location = new System.Drawing.Point(16, 117);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 15);
             this.label1.TabIndex = 2;
@@ -68,7 +68,7 @@ namespace ClientTIP
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(217, 281);
+            this.label2.Location = new System.Drawing.Point(16, 174);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 15);
             this.label2.TabIndex = 3;
@@ -77,7 +77,7 @@ namespace ClientTIP
             // LoginClickButton
             // 
             this.LoginClickButton.Enabled = false;
-            this.LoginClickButton.Location = new System.Drawing.Point(260, 340);
+            this.LoginClickButton.Location = new System.Drawing.Point(59, 211);
             this.LoginClickButton.Name = "LoginClickButton";
             this.LoginClickButton.Size = new System.Drawing.Size(107, 23);
             this.LoginClickButton.TabIndex = 4;
@@ -88,7 +88,7 @@ namespace ClientTIP
             // RegisterClickButton
             // 
             this.RegisterClickButton.Enabled = false;
-            this.RegisterClickButton.Location = new System.Drawing.Point(400, 340);
+            this.RegisterClickButton.Location = new System.Drawing.Point(199, 211);
             this.RegisterClickButton.Name = "RegisterClickButton";
             this.RegisterClickButton.Size = new System.Drawing.Size(118, 23);
             this.RegisterClickButton.TabIndex = 5;
@@ -98,7 +98,7 @@ namespace ClientTIP
             // 
             // IPTextField
             // 
-            this.IPTextField.Location = new System.Drawing.Point(260, 35);
+            this.IPTextField.Location = new System.Drawing.Point(74, 12);
             this.IPTextField.Name = "IPTextField";
             this.IPTextField.Size = new System.Drawing.Size(258, 23);
             this.IPTextField.TabIndex = 6;
@@ -106,7 +106,7 @@ namespace ClientTIP
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(194, 38);
+            this.label3.Location = new System.Drawing.Point(8, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 15);
             this.label3.TabIndex = 7;
@@ -114,7 +114,7 @@ namespace ClientTIP
             // 
             // ConnectClickButton
             // 
-            this.ConnectClickButton.Location = new System.Drawing.Point(366, 79);
+            this.ConnectClickButton.Location = new System.Drawing.Point(180, 56);
             this.ConnectClickButton.Name = "ConnectClickButton";
             this.ConnectClickButton.Size = new System.Drawing.Size(152, 28);
             this.ConnectClickButton.TabIndex = 8;
@@ -125,7 +125,7 @@ namespace ClientTIP
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(260, 86);
+            this.label4.Location = new System.Drawing.Point(74, 63);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 15);
             this.label4.TabIndex = 9;
@@ -135,7 +135,7 @@ namespace ClientTIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(352, 262);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ConnectClickButton);
             this.Controls.Add(this.label3);

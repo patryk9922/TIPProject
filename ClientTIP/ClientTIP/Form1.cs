@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientTIP
@@ -23,7 +14,7 @@ namespace ClientTIP
 
             client = new SharedClient();
 
-            IPTextField.Text = "192.168.1.16";
+            IPTextField.Text = "192.168.1.100";
 
             LoginTextField.Text = "test";
             PasswordTextField.Text = "123";

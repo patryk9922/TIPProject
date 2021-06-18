@@ -1,12 +1,9 @@
 ﻿using NAudio.Wave;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientTIP
@@ -23,7 +20,6 @@ namespace ClientTIP
         static LinkedList<byte[]> SenderQueue = new LinkedList<byte[]>();
         static Semaphore SenderKick = new Semaphore(0, int.MaxValue);
         bool loop = false;
-        int i = 0;
 
         public Call(string remoteIp, string localIp)
         {
@@ -68,29 +64,33 @@ namespace ClientTIP
 
             while (loop)
             {
-                SenderKick.WaitOne();
-
-                Lock.WaitOne();
-                bool dataavailable = (SenderQueue.Count != 0);
-                if (dataavailable)
+                try
                 {
-                    qbuffer = SenderQueue.First.Value;
-                    SenderQueue.RemoveFirst();
+                    SenderKick.WaitOne();
+
+                    Lock.WaitOne();
+                    bool dataavailable = (SenderQueue.Count != 0);
+                    if (dataavailable)
+                    {
+                        qbuffer = SenderQueue.First.Value;
+                        SenderQueue.RemoveFirst();
+                    }
+                    Lock.ReleaseMutex();
+
+                    if (!dataavailable) break;
+
+                    Lock.WaitOne();
+                    client.Send(qbuffer, qbuffer.Length);
+                    Lock.ReleaseMutex();
                 }
-                Lock.ReleaseMutex();
-
-                if (!dataavailable) break;
-
-                Lock.WaitOne();
-                client.Send(qbuffer, qbuffer.Length);
-                Lock.ReleaseMutex();
+                catch
+                {
+                }
             }
-            i++;
         }
 
         public void Close()
         {
-            while (i < 2) ;
             client.Close();
             client.Dispose();
         }
@@ -105,12 +105,12 @@ namespace ClientTIP
         {
             waveIn.StopRecording();
             waveIn.DataAvailable -= Wave_DataAvailable;
-            try { waveIn.Dispose(); } catch (Exception) { }
+            try { waveIn.Dispose(); } catch { }
             SenderKick.Release();
 
             loop = false;
             waveOut.Stop();
-            try { waveOut.Dispose(); } catch (Exception) { }
+            try { waveOut.Dispose(); } catch { }
         }
 
         public void Receiver()
@@ -122,12 +122,10 @@ namespace ClientTIP
                     byte[] data = client.Receive(ref endPoint);
                     bufferedOutProvider.AddSamples(data, 0, data.Length);
                 }
-                catch(Exception e)
+                catch
                 {
-                    MessageBox.Show(e.Message);
                 }
             }
-            i++;
         }
     }
 }

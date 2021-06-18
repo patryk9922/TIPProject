@@ -139,6 +139,7 @@ namespace TIPProjectSerwer
                     string disconnectedClient = clients.Where(x => x.Value == client).FirstOrDefault().Key;
                     clients.Remove(disconnectedClient);
                     Console.WriteLine($"User: {disconnectedClient} disconnected");
+                    loggedIn = false;
                 }
             }
         }
