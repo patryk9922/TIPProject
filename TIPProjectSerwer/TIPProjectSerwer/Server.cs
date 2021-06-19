@@ -15,6 +15,8 @@ namespace TIPProjectSerwer
         private IPAddress ip;
         private int port;
 
+        private UserManagement um;
+
         private Dictionary<string, TcpClient> clients = new Dictionary<string, TcpClient>();
         private List<Invitation> invitations = new List<Invitation>();
         private Dictionary<string, string> calls = new Dictionary<string, string>();
@@ -23,6 +25,7 @@ namespace TIPProjectSerwer
         {
             ip = _ip;
             port = _port;
+            um = new UserManagement();
         }
 
         public async Task StartServer()
@@ -64,7 +67,7 @@ namespace TIPProjectSerwer
 
                         if  (loginData[0] == "110")
                         {
-                            if  (Login(loginData[1], loginData[2]))
+                            if  (um.Login(loginData[1], loginData[2]))
                             {
                                 Console.WriteLine($"User : {loginData[1]} logged in");
                                 loggedIn = true;
@@ -82,7 +85,7 @@ namespace TIPProjectSerwer
                         }
                         else if  (loginData[0] == "120")
                         {
-                            if (Register(loginData[1], loginData[2]))
+                            if (um.Register(loginData[1], loginData[2]))
                             {
                                 Console.WriteLine($"User : {loginData[1]} registered");
                                 loggedIn = true;
@@ -239,58 +242,7 @@ namespace TIPProjectSerwer
             }
         }
 
-        private bool Login(string login, string password)
-        {
-            FileStream fileStream = new FileStream("TIPDB.bin", FileMode.OpenOrCreate);
-            StreamReader streamReader = new StreamReader(fileStream);
-            string[] data = streamReader.ReadToEnd().Split('|');
-
-            foreach (var i in data)
-            {
-                if (i == login + ";" + password)
-                {
-                    streamReader.Close();
-                    fileStream.Close();
-                    return true;
-                }
-            }
-
-            streamReader.Close();
-            fileStream.Close();
-
-            return false;
-        }
         
-        private bool Register(string login, string password)
-        {
-            FileStream fileStream = new FileStream("TIPDB.bin", FileMode.OpenOrCreate);
-            StreamReader streamReader = new StreamReader(fileStream);
-            string[] data = streamReader.ReadToEnd().Split('|');
-
-            foreach (var i in data)
-            {
-                if(i.StartsWith(login))
-                {
-                    streamReader.Close();
-                    fileStream.Close();
-                    return false;
-                }
-            }
-
-            streamReader.Close();
-            fileStream.Close();
-
-            FileStream fileStream2 = new FileStream("TIPDB.bin", FileMode.Append);
-            StreamWriter streamWriter = new StreamWriter(fileStream2);
-
-            string dane = login + ";" + password + "|";
-            streamWriter.Write(dane);
-
-            streamWriter.Close();
-            fileStream2.Close();
-
-            return true;
-        }
 
         private void Write(TcpClient client, string message)
         {

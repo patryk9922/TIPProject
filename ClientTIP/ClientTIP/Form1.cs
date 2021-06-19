@@ -96,6 +96,7 @@ namespace ClientTIP
             ConnectClickButton.Text = "Połącz się";
             label4.Text = "Brak połączenia";
             client.Close();
+            client = new SharedClient();
         }
 
         private void RegisterClickButton_Click(object sender, EventArgs e)
