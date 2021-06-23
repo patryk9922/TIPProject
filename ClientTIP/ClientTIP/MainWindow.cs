@@ -18,8 +18,6 @@ namespace ClientTIP
             client = _client;
             LoginLabel.Text = "Zalogowano jako: " + login;
 
-            UsernameTextField.Text = "test1";
-
             timer = new System.Timers.Timer();
 
             timer.Interval = 1000;

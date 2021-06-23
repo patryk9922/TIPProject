@@ -14,10 +14,10 @@ namespace ClientTIP
 
             client = new SharedClient();
 
-            IPTextField.Text = "192.168.1.100";
+            //IPTextField.Text = "192.168.1.100";
 
-            LoginTextField.Text = "test";
-            PasswordTextField.Text = "123";
+            //LoginTextField.Text = "test";
+            //PasswordTextField.Text = "123";
         }
 
         private void ConnectClickButton_Click(object sender, EventArgs e)
@@ -47,6 +47,7 @@ namespace ClientTIP
                 ConnectClickButton.Text = "Połącz się";
                 label4.Text = "Brak połączenia";
                 client.Close();
+                client = new SharedClient();
             }
         }
 
