@@ -34,11 +34,13 @@ namespace ClientTIP
             this.CallButton = new System.Windows.Forms.Button();
             this.EndButton = new System.Windows.Forms.Button();
             this.LogoutButton = new System.Windows.Forms.Button();
+            this.LoginLabel = new System.Windows.Forms.Label();
+            this.TimeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // UsernameTextField
             // 
-            this.UsernameTextField.Location = new System.Drawing.Point(131, 12);
+            this.UsernameTextField.Location = new System.Drawing.Point(142, 12);
             this.UsernameTextField.Name = "UsernameTextField";
             this.UsernameTextField.Size = new System.Drawing.Size(207, 23);
             this.UsernameTextField.TabIndex = 0;
@@ -46,15 +48,16 @@ namespace ClientTIP
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 15);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(7, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 15);
+            this.label1.Size = new System.Drawing.Size(129, 19);
             this.label1.TabIndex = 1;
             this.label1.Text = "Nazwa użytkownika";
             // 
             // CallButton
             // 
-            this.CallButton.Location = new System.Drawing.Point(189, 41);
+            this.CallButton.Location = new System.Drawing.Point(263, 50);
             this.CallButton.Name = "CallButton";
             this.CallButton.Size = new System.Drawing.Size(75, 23);
             this.CallButton.TabIndex = 2;
@@ -65,7 +68,7 @@ namespace ClientTIP
             // EndButton
             // 
             this.EndButton.Enabled = false;
-            this.EndButton.Location = new System.Drawing.Point(189, 70);
+            this.EndButton.Location = new System.Drawing.Point(263, 79);
             this.EndButton.Name = "EndButton";
             this.EndButton.Size = new System.Drawing.Size(75, 23);
             this.EndButton.TabIndex = 3;
@@ -75,7 +78,7 @@ namespace ClientTIP
             // 
             // LogoutButton
             // 
-            this.LogoutButton.Location = new System.Drawing.Point(14, 70);
+            this.LogoutButton.Location = new System.Drawing.Point(12, 98);
             this.LogoutButton.Name = "LogoutButton";
             this.LogoutButton.Size = new System.Drawing.Size(75, 23);
             this.LogoutButton.TabIndex = 4;
@@ -83,11 +86,33 @@ namespace ClientTIP
             this.LogoutButton.UseVisualStyleBackColor = true;
             this.LogoutButton.Click += new System.EventHandler(this.LogoutButton_Click);
             // 
+            // LoginLabel
+            // 
+            this.LoginLabel.AutoSize = true;
+            this.LoginLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LoginLabel.Location = new System.Drawing.Point(4, 41);
+            this.LoginLabel.Name = "LoginLabel";
+            this.LoginLabel.Size = new System.Drawing.Size(120, 19);
+            this.LoginLabel.TabIndex = 5;
+            this.LoginLabel.Text = "Zalogowano jako: ";
+            // 
+            // TimeLabel
+            // 
+            this.TimeLabel.AutoSize = true;
+            this.TimeLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TimeLabel.Location = new System.Drawing.Point(4, 67);
+            this.TimeLabel.Name = "TimeLabel";
+            this.TimeLabel.Size = new System.Drawing.Size(108, 19);
+            this.TimeLabel.TabIndex = 6;
+            this.TimeLabel.Text = "Czas połączenia:";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 114);
+            this.ClientSize = new System.Drawing.Size(361, 133);
+            this.Controls.Add(this.TimeLabel);
+            this.Controls.Add(this.LoginLabel);
             this.Controls.Add(this.LogoutButton);
             this.Controls.Add(this.EndButton);
             this.Controls.Add(this.CallButton);
@@ -107,5 +132,7 @@ namespace ClientTIP
         private System.Windows.Forms.Button CallButton;
         private System.Windows.Forms.Button EndButton;
         private System.Windows.Forms.Button LogoutButton;
+        private System.Windows.Forms.Label LoginLabel;
+        private System.Windows.Forms.Label TimeLabel;
     }
 }

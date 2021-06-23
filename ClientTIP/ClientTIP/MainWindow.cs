@@ -9,13 +9,23 @@ namespace ClientTIP
     {
         private SharedClient client;
         private bool inCall = false, ok = true;
+        private System.Timers.Timer timer;
+        private int minutes = 0, seconds = 0;
 
-        public MainWindow(SharedClient _client)
+        public MainWindow(SharedClient _client, string login)
         {
             InitializeComponent();
             client = _client;
+            LoginLabel.Text = "Zalogowano jako: " + login;
 
             UsernameTextField.Text = "test1";
+
+            timer = new System.Timers.Timer();
+
+            timer.Interval = 1000;
+            timer.Elapsed += Timer_Tick;
+            timer.Enabled = true;
+            timer.Stop();
 
             Task.Run(async () =>
             {
@@ -62,6 +72,8 @@ namespace ClientTIP
                                                     s.Start();
                                                     r.Start();
 
+                                                    timer.Start();
+
                                                     inCall = true;
 
                                                     Invoke((MethodInvoker)delegate
@@ -70,6 +82,14 @@ namespace ClientTIP
                                                     });
 
                                                     while (inCall) ;
+
+                                                    timer.Stop();
+
+                                                    string minutesS = minutes < 10 ? "0" + minutes.ToString() : minutes.ToString();
+                                                    string secondsS = seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
+                                                    MessageBox.Show($"Czas połączenia: {minutesS}:{secondsS}", "Połączenie zakończone", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                    minutes = 0;
+                                                    seconds = 0;
 
                                                     call.StopRecording();
                                                     call.Close();
@@ -126,6 +146,8 @@ namespace ClientTIP
                                                 s.Start();
                                                 r.Start();
 
+                                                timer.Start();
+
                                                 inCall = true;
 
                                                 Invoke((MethodInvoker)delegate
@@ -134,6 +156,20 @@ namespace ClientTIP
                                                 });
 
                                                 while (inCall) ;
+
+                                                timer.Stop();
+
+                                                string minutesS = minutes < 10 ? "0" + minutes.ToString() : minutes.ToString();
+                                                string secondsS = seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
+
+                                                MessageBox.Show($"Czas połączenia: {minutesS}:{secondsS}", "Połączenie zakończone", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                minutes = 0;
+                                                seconds = 0;
+
+                                                Invoke((MethodInvoker)delegate
+                                                {
+                                                    TimeLabel.Text = $"Czas połączenia:";
+                                                });
 
                                                 call.StopRecording();
                                                 call.Close();
@@ -185,6 +221,26 @@ namespace ClientTIP
                 catch
                 {
                 }
+            });
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if(seconds > 58)
+            {
+                seconds = 0;
+                minutes++;
+            }
+            else
+            {
+                seconds++;
+            }
+
+            Invoke((MethodInvoker)delegate
+            {
+                string minutesS = minutes < 10 ? "0" + minutes.ToString() : minutes.ToString();
+                string secondsS = seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
+                TimeLabel.Text = $"Czas połączenia: {minutesS}:{secondsS}";
             });
         }
 

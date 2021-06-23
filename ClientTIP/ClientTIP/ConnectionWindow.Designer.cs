@@ -1,7 +1,7 @@
 ﻿
 namespace ClientTIP
 {
-    partial class Form1
+    partial class ConnectionWindow
     {
         /// <summary>
         ///  Required designer variable.

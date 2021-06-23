@@ -3,12 +3,12 @@ using System.Windows.Forms;
 
 namespace ClientTIP
 {
-    public partial class Form1 : Form
+    public partial class ConnectionWindow : Form
     {
         private SharedClient client;
         bool connected = false;
 
-        public Form1()
+        public ConnectionWindow()
         {
             InitializeComponent();
 
@@ -68,7 +68,7 @@ namespace ClientTIP
                 {
                     MessageBox.Show("Zalogowano", "Logowanie udane", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    MainWindow mainWindow = new MainWindow(client);
+                    MainWindow mainWindow = new MainWindow(client, LoginTextField.Text);
 
                     mainWindow.FormClosed += MainWindow_FormClosed;
 
@@ -115,7 +115,7 @@ namespace ClientTIP
                 {
                     MessageBox.Show("Zarejestrowano", "Rejestracja udana", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    MainWindow mainWindow = new MainWindow(client);
+                    MainWindow mainWindow = new MainWindow(client, LoginTextField.Text);
 
                     mainWindow.FormClosed += MainWindow_FormClosed;
 
