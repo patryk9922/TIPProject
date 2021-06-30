@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ClientTIP
 {
@@ -82,7 +83,7 @@ namespace ClientTIP
 
                                                     while (inCall)
                                                     {
-                                                        int i = 0;
+                                                        Debug.WriteLine("Waiting");
                                                     }
 
                                                     timer.Stop();
@@ -160,7 +161,7 @@ namespace ClientTIP
 
                                                 while (inCall)
                                                 {
-                                                    int i = 0;
+                                                    Debug.WriteLine("Waiting");
                                                 }
 
                                                 timer.Stop();

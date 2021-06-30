@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -176,7 +177,7 @@ namespace TIPProjectSerwer
 
                         while (!iv.UserAccepted)
                         {
-                            int i = 0;
+                            Debug.WriteLine("Waiting");
                         }
 
                         if (!iv.UserRejected)
