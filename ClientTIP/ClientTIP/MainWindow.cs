@@ -77,9 +77,13 @@ namespace ClientTIP
                                                     Invoke((MethodInvoker)delegate
                                                     {
                                                         EndButton.Enabled = true;
+                                                        CallButton.Enabled = false;
                                                     });
 
-                                                    while (inCall) ;
+                                                    while (inCall)
+                                                    {
+                                                        int i = 0;
+                                                    }
 
                                                     timer.Stop();
 
@@ -151,9 +155,13 @@ namespace ClientTIP
                                                 Invoke((MethodInvoker)delegate
                                                 {
                                                     EndButton.Enabled = true;
+                                                    CallButton.Enabled = false;
                                                 });
 
-                                                while (inCall) ;
+                                                while (inCall)
+                                                {
+                                                    int i = 0;
+                                                }
 
                                                 timer.Stop();
 

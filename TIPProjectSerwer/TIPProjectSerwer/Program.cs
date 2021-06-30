@@ -5,7 +5,7 @@ namespace TIPProjectSerwer
 {
     class Program
     {
-        static string ip = "192.168.1.100";
+        static string ip = "26.47.44.18";
         static int port = 15080;
 
         static void Main(string[] args)

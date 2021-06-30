@@ -170,11 +170,14 @@ namespace TIPProjectSerwer
                         invitations.Add(
                             new Invitation(callerUserName, client.Client.RemoteEndPoint.ToString(), userName, clients[userName].Client.RemoteEndPoint.ToString()));
 
-                        Invitation iv = invitations.Where(x => x.CallerUsername == callerUserName).FirstOrDefault();
+                        var iv = invitations.Where(x => x.CallerUsername == callerUserName).FirstOrDefault();
 
                         Write(clients[userName], "400");
 
-                        while (!iv.UserAccepted) ;
+                        while (!iv.UserAccepted)
+                        {
+                            int i = 0;
+                        }
 
                         if (!iv.UserRejected)
                         {
@@ -212,7 +215,7 @@ namespace TIPProjectSerwer
 
         private void IncomingCall(TcpClient client)
         {
-            Invitation iv = invitations.Where(x => x.CalleeIP == client.Client.RemoteEndPoint.ToString() &&
+            var iv = invitations.Where(x => x.CalleeIP == client.Client.RemoteEndPoint.ToString() &&
                     x.CalleeUsername == clients.FirstOrDefault(x => x.Value == client).Key).FirstOrDefault();
 
             if(iv.IsMe(clients.FirstOrDefault(x => x.Value == client).Key, client.Client.RemoteEndPoint.ToString()))
